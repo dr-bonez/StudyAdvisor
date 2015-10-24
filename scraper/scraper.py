@@ -46,7 +46,7 @@ def google_urls(term):
     print('Scraping from url:  '+url)
     html = requests.get(url).content
     print('Response size: '+str(len(html)))
-    regex = re.compile('/\"(https?:\/\/)([\da-zA-Z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*(\?[\da-zA-Z\%]+=[\da-zA-Z\%]+)?(\&[\da-zA-Z\%]+=[\da-zA-Z\%]+)*\/?\"/g')
+    regex = re.compile('(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))')
     return regex.findall(html)
 
 def intern_concept(concepttext):
