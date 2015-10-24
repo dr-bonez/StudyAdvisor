@@ -48,12 +48,13 @@ def intern_concept(concept):
     global concepts_interned
     concepts_interned.append(concept)
     urls = google_urls(concept)
-    if(len(urls)!=0): commit_url(urls[0])
-    concepts = get_alchemy_concepts(urls[0])
-    for concept in concepts:
-        if concept not in concepts_interned:
-            intern_concept(concept['text'])
-            break
+    if(len(urls)!=0):
+        commit_url(urls[0])
+        concepts = get_alchemy_concepts(urls[0])
+        for concept in concepts:
+            if concept not in concepts_interned:
+                intern_concept(concept['text'])
+                break
 
 
 if __name__ == "__main__":
