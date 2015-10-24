@@ -61,12 +61,12 @@ def intern_concept(concepttext):
         print('URLs: urls')
         concepts = get_alchemy_concepts(urls[0])
         for concept in concepts:
-            print('Checking concept: '+concept['text'])
-            if concept['text'] not in concepts_interned:
-                intern_concept(concept['text'])
+            print('Checking concept: '+str(concept['text']))
+            if str(concept['text']) not in concepts_interned:
+                intern_concept(str(concept['text']))
                 break
             else:
-                print(concept['text']+' is already in concepts_interned')
+                print(str(concept['text'])+' is already in concepts_interned')
     else:
         print('urls is empty')
 
@@ -76,5 +76,5 @@ if __name__ == "__main__":
     global concepts_interned
     start_term = sys.argv[1]
     connect(start_term)
-    print(concepts_interned)
+    print('Final concepts_interned: '+concepts_interned)
 
