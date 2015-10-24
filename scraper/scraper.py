@@ -47,9 +47,9 @@ def google_urls(term):
     html = requests.get(url).content
     print(html)
     print('Response size: '+str(len(html)))
-    regex = re.compile('class=\"r\">\s*<a href=\"http.*?\"')
+    regex = re.compile('class=\"r\">\s*<a href=\"\/url\?=http.*?\"')
     print(regex.findall(html))
-    return [x[string.find(x, 'href')+6:-1] for x in regex.findall(html)]
+    return [x[string.find(x, 'href')+12:-1] for x in regex.findall(html)]
 
 def intern_concept(concepttext):
     """ main recursive function """
