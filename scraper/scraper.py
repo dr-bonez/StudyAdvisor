@@ -5,7 +5,7 @@ import simplejson
 import mysql.connector
 from alchemyapi import AlchemyAPI
 
-
+cur
 alchemyapi = AlchemyAPI()
 concepts_interned = []
 
@@ -17,6 +17,7 @@ def connect(start_term):
         if not (conn.is_connected()):
             print('Could not connect to MySQL database')
             exit()
+        global cur
         cur = conn.cursor()
         intern_concept(start_term)
         conn.commit()
@@ -27,6 +28,7 @@ def connect(start_term):
         conn.close()
 
 def commit_urls(urls):
+    global cur
     for url in urls:
         cur.execute('INSERT INTO sites (url, visits) SELECT \''+url+'\', 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
 
