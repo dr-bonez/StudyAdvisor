@@ -34,8 +34,8 @@ def commit_urls(urls):
     cur = conn.cursor()
     for url in urls:
         print(url)
-        if(0==len(cur.execute('SELECT * FROM sites WHERE url=%s LIMIT 1;', (url,)).fetchall())):
-            cur.execute('INSERT INTO sites (url, visits) VALUES (%s, 1000) ;', (url,))
+        if(0==len(cur.execute('SELECT * FROM sites WHERE url=%s LIMIT 1;' % (url,)).fetchall())):  # can't handle titles with apostrophes
+            cur.execute('INSERT INTO sites (url, visits) VALUES (%s, 1000) ;' % (url,))
     conn.commit()
 
 def get_alchemy_concepts(url):
