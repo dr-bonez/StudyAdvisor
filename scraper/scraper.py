@@ -31,7 +31,7 @@ def commit_urls(urls):
     cur = conn.cursor()
     for url in urls:
         print(url)
-        if(0==len(cur.execute("SELECT * FROM sites WHERE url=%s LIMIT 1;" % url).fetchall())):  # can't handle titles with apostrophes
+        if(0==len(cur.execute("SELECT * FROM sites WHERE url='%s' LIMIT 1;" % url).fetchall())):  # can't handle titles with apostrophes
             cur.execute("INSERT INTO sites (url, visits) VALUES (%s, 1000) ;" % url)
         conn.commit()
 
@@ -53,7 +53,7 @@ def google_urls(term):
 
 def url_in_db(url):
     cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) FROM sites WHERE url is %s" % url).fetchone()
+    cur.execute("SELECT COUNT(*) FROM sites WHERE url='%s'" % url).fetchone()
     conn.commit()
 
 def intern_concept(concepttext):
