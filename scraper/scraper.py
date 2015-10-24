@@ -55,15 +55,19 @@ def intern_concept(concept):
     global concepts_interned
     concepts_interned.append(concept)
     urls = google_urls(concept)
+    commit_urls(urls)
     if(len(urls)!=0):
         print(urls)
-        commit_urls(urls)
         concepts = get_alchemy_concepts(urls[0])
         for concept in concepts:
             print(concept['text'])
             if concept['text'] not in concepts_interned:
                 intern_concept(concept['text'])
                 break
+            else:
+                print(concept['text']+' is already in concepts_interned')
+    else:
+        print('urls is empty')
 
 
 if __name__ == "__main__":
