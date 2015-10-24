@@ -6,7 +6,7 @@ import mysql.connector
 from py_bing_search import PyBingSearch
 from alchemyapi import AlchemyAPI
 
-bing = PyBingSearch('qW2D/Zd+GgmV4KYol+p7IS+GygoOf4Bd6PccrlvRCOo')
+bing = PyBingSearch('kQzdc8NrUs2wm7ksRH5L6brZOfhakmQB4k1+2kpCnm0')
 cur = None
 alchemyapi = AlchemyAPI()
 concepts_interned = []
@@ -65,7 +65,7 @@ def intern_concept(concepttext):
     """ main recursive function """
     global concepts_interned
     concepts_interned.append(concepttext)
-    urls =bing_urls(concepttext)
+    urls = bing_urls(concepttext)
     commit_urls(urls)
     if(len(urls)!=0):
         print('URLs: urls')
