@@ -69,4 +69,5 @@ if __name__ == "__main__":
     """ Main Routine """
     start_term = sys.argv[1]
     connect(start_term)
+    print(concepts_interned)
 
