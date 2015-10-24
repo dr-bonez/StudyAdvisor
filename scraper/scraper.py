@@ -18,7 +18,7 @@ def commit_url(url):
             print('Could not connect to MySQL database')
             exit()
         cur = conn.cursor()
-        cur.execute('INSERT INTO sites (url, visits) SELECT url FROM (SELECT '+url+') AS tmp WHERE NOT EXISTS (SELECT url FROM sites WHERE url='+url+') LIMIT 1;')
+        cur.execute('INSERT INTO sites (url, visits) SELECT url FROM (SELECT \''+url+'\') AS tmp WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
         conn.commit()
     except mysql.connector.Error as e:
         print(e)
@@ -35,7 +35,7 @@ def get_alchemy_concepts(url):
 def google_urls(term):
     """ return list of urls returned by google search """
     urls = []
-    url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.parse.quote_plus(term))
+    url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.quote_plus(term))
     response = requests.get(url).content
     results = simplejson.loads(response)
     for result in results['responseData']['results']:
