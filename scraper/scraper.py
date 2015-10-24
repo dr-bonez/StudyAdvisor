@@ -89,7 +89,7 @@ def intern_concept(concepttext):
 
 if __name__ == "__main__":
     """ Main Routine """
-    global concepts_interned
+    concepts_interned
     start_term = sys.argv[1]
     connect(start_term)
     print(concepts_interned)
