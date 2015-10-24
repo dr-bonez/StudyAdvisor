@@ -2,17 +2,32 @@ import sys
 import requests
 import urllib
 import simplejson
-from AlchemyApi import AlchemyApi
+from alchemyapi import AlchemyApi
 
 
 alchemyapi = AlchemyApi()
 concepts_interned = []
-urls_interned = []
+#urls_interned = []
 
 
-def commit_urls():
+def connect(url):
+
+
+def commit_url(url):
     """ Add all urls from urls_interned list to mySQL database """
-    pass
+    try:
+		conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
+		if not (conn.is_connected()):
+			print('Could not connect to MySQL database')
+			exit()
+		cur = conn.cursor()
+        cur.execute('INSERT INTO sites (url, visits) SELECT url FROM (SELECT '+url+') AS tmp WHERE NOT EXISTS (SELECT url FROM sites WHERE url='+url+') LIMIT 1;')
+        conn.commit()
+	except mysql.connector.Error as e:
+		print(e)
+		exit()
+	else:
+		conn.close()
 
 def get_alchemy_concepts(url):
     """ TODO """
@@ -35,7 +50,8 @@ def intern_concept(concept):
     global concepts_interned
     concepts_interned.append(concept)
     urls = google_urls(concept)
-    urls_interned.append(urls[0])
+    commit_url(urls[0])
+#    urls_interned.append(urls[0])
     concepts = get_alchemy_concepts(urls[0])
     for concept in concepts:
         if concept not in concepts_interned:
