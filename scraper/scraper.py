@@ -44,8 +44,6 @@ def get_alchemy_concepts(url):
 def bing_urls(term):
     response = bing.search(term, limit=10, format='json')
     print(response)
-    for result in results:
-        print(result)#['Title']
     return []
 
 def google_urls(term):
