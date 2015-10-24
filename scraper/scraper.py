@@ -43,6 +43,7 @@ def google_urls(term):
     """ return list of urls returned by google search """
     urls = []
     url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.quote_plus(term))
+    print('Scraping from url:  '+url)
     response = requests.get(url).content
     results = simplejson.loads(response)
     if results['responseStatus'] != 200: return []
@@ -50,17 +51,17 @@ def google_urls(term):
         urls.append(result['unescapedUrl'])
     return urls
 
-def intern_concept(concept):
+def intern_concept(concepttext):
     """ main recursive function """
     global concepts_interned
-    concepts_interned.append(concept)
-    urls = google_urls(concept)
+    concepts_interned.append(concepttext)
+    urls = google_urls(concepttext)
     commit_urls(urls)
     if(len(urls)!=0):
-        print(urls)
+        print('URLs: urls')
         concepts = get_alchemy_concepts(urls[0])
         for concept in concepts:
-            print(concept['text'])
+            print('Checking concept: '+concept['text'])
             if concept['text'] not in concepts_interned:
                 intern_concept(concept['text'])
                 break
