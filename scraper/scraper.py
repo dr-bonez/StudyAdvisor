@@ -3,8 +3,10 @@ import requests
 import urllib
 import simplejson
 import mysql.connector
+from pybing import Bing
 from alchemyapi import AlchemyAPI
 
+bing = Bing('qW2D/Zd+GgmV4KYol+p7IS+GygoOf4Bd6PccrlvRCOo')
 cur = None
 alchemyapi = AlchemyAPI()
 concepts_interned = []
@@ -39,7 +41,17 @@ def get_alchemy_concepts(url):
     if response['status'] != 'OK': return None
     return response['concepts']
 
+def bing_urls(term):
+    response = bing.search_web(term)
+    print(response)
+    results = response['SearchResponse']['Web']['Results']
+    print(len(results))
+    for result in results[:3]:
+        print(result)#['Title']
+    return []
+
 def google_urls(term):
+    r = requests.post(url, data=json.dumps(payload))
     """ return list of urls returned by google search """
     urls = []
     url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.quote_plus(term))
@@ -57,7 +69,7 @@ def intern_concept(concepttext):
     """ main recursive function """
     global concepts_interned
     concepts_interned.append(concepttext)
-    urls = google_urls(concepttext)
+    urls =bing_urls(concepttext)
     commit_urls(urls)
     if(len(urls)!=0):
         print('URLs: urls')
