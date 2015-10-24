@@ -7,10 +7,6 @@ from alchemyapi import AlchemyApi
 
 alchemyapi = AlchemyApi()
 concepts_interned = []
-#urls_interned = []
-
-
-def connect(url):
 
 
 def commit_url(url):
@@ -51,7 +47,6 @@ def intern_concept(concept):
     concepts_interned.append(concept)
     urls = google_urls(concept)
     commit_url(urls[0])
-#    urls_interned.append(urls[0])
     concepts = get_alchemy_concepts(urls[0])
     for concept in concepts:
         if concept not in concepts_interned:
