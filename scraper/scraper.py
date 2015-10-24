@@ -45,7 +45,6 @@ def google_urls(term):
     url = ('https://www.google.com/search?q=%s' % urllib.quote_plus(term))
     print('Scraping from url:  '+url)
     html = requests.get(url).content
-    print(html)
     print('Response size: '+str(len(html)))
     regex = re.compile('class=\"r\"><a href=\"\/url\?q=http.*?\"')
     print(regex.findall(html))
