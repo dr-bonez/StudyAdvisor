@@ -31,6 +31,7 @@ def connect(start_term):
 def commit_urls(urls):
     global cur
     for url in urls:
+        print(url)
         cur.execute('INSERT INTO sites (url, visits) SELECT \''+url+'\', 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
 
 def get_alchemy_concepts(url):
