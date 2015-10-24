@@ -50,11 +50,17 @@ def google_urls(term):
     regex = re.compile('class=\"r\"><a href=\"\/url\?q=http.*?\"')
     return [x[26:x.find("&amp;")] for x in regex.findall(html)]
 
+def url_in_db(url):
+    cur.execute('SELECT COUNT(*) FROM sites WHERE url is %s', url).fetchone()
+
 def intern_concept(concepttext):
     """ main recursive function """
     global concepts_interned
     concepts_interned.append(concepttext)
     urls = google_urls(concepttext)
+    for url in urls:
+        if(url_in_db(url)): urls.remove(url)  # removes urls already in db
+        print('Removed url: '+url)
     commit_urls(urls)
     if(len(urls)!=0):
         i=0
