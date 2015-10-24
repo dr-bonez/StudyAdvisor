@@ -2,10 +2,10 @@ import sys
 import requests
 import urllib
 import simplejson
-from alchemyapi import AlchemyApi
+from alchemyapi import AlchemyAPI
 
 
-alchemyapi = AlchemyApi()
+alchemyapi = AlchemyAPI()
 concepts_interned = []
 
 
