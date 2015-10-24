@@ -2,6 +2,7 @@ import sys
 import requests
 import urllib
 import simplejson
+import mysql.connector
 from alchemyapi import AlchemyAPI
 
 
