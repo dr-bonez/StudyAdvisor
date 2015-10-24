@@ -45,7 +45,7 @@ def google_urls(term):
     url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.quote_plus(term))
     print('Scraping from url:  '+url)
     response = requests.get(url).content
-    print('Response size: '+len(response))
+    print('Response size: '+str(len(response)))
     results = simplejson.loads(response)
     if results['responseStatus'] != 200: return []
     for result in results['responseData']['results']:
