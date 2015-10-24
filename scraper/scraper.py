@@ -3,13 +3,13 @@ import requests
 import urllib
 import simplejson
 import mysql.connector
-from bs4 import BeautifulSoup
-from pybing import Bing
 from alchemyapi import AlchemyAPI
 
-bing = Bing('qW2D/Zd+GgmV4KYol+p7IS+GygoOf4Bd6PccrlvRCOo')
+
+global cur
 cur = None
 alchemyapi = AlchemyAPI()
+global concepts_interned
 concepts_interned = []
 
 
@@ -35,39 +35,33 @@ def commit_urls(urls):
     for url in urls:
         cur.execute('INSERT INTO sites (url, visits) SELECT \''+url+'\', 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
 
-
 def get_alchemy_concepts(url):
-    """ TODO """
+    """ Extract concepts from url """
     response = alchemyapi.concepts('url', url)
     if response['status'] != 'OK': return None
     return response['concepts']
 
-def bing_urls(term):
-    response = bing.search_web(term)
-    print(response)
-    results = response['SearchResponse']['Web']['Results']
-    print(len(results))
-    for result in results[:3]:
-        print(result)#['Title']
-    return []
-
 def google_urls(term):
-    r = requests.post(url, data=json.dumps(payload))
     """ return list of urls returned by google search """
     urls = []
-    url = ('https://www.google.com/search?q=%s' % urllib.quote_plus(term))
+    url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.parse.quote_plus(term))
     print('Scraping from url:  '+url)
     response = requests.get(url).content
+    print('Response size: '+str(len(response)))
     print('Response: '+response)
     soup = BeautifulSoup(response)
-    print(soup.find('div', {'class':'srg'}))
-    return []
+    for link in soup.findAll('a'):
+        href = link['href']
+        print('Link href: '+href)
+        if href is not None:
+            urls.append(href)
+    return urls
 
 def intern_concept(concepttext):
     """ main recursive function """
     global concepts_interned
     concepts_interned.append(concepttext)
-    urls =bing_urls(concepttext)
+    urls = google_urls(concepttext)
     commit_urls(urls)
     if(len(urls)!=0):
         print('URLs: urls')
