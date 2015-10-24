@@ -35,7 +35,8 @@ def commit_urls(urls):
     cur = conn.cursor()
     for url in urls:
         print(url)
-        cur.execute('INSERT INTO sites (url, visits) SELECT %s, 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=%s) LIMIT 1;', (url, url))
+        if(0==len(cur.execute('SELECT * FROM sites WHERE url=%s LIMIT 1;', (url)).fetchall())):
+            cur.execute('INSERT INTO sites (url, visits) VALUES (%s, 1000) ;', (url,))
     conn.commit()
 
 def get_alchemy_concepts(url):
@@ -57,7 +58,7 @@ def google_urls(term):
 def url_in_db(url):
     global cur
     cur = conn.cursor()
-    cur.execute('SELECT COUNT(*) FROM sites WHERE url is %s', url).fetchone()
+    cur.execute('SELECT COUNT(*) FROM sites WHERE url is %s', (url,)).fetchone()
     conn.commit()
 
 def intern_concept(concepttext):
