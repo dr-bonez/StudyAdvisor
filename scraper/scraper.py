@@ -60,8 +60,12 @@ def google_urls(term):
     response = requests.get(url).content
     print('Response: '+response)
     soup = BeautifulSoup(response)
-    print(soup.find('div', {'class':'srg'}))
-    return []
+    for link in soup.findAll('a'):
+        href = link['href']
+        print('Link href: '+href)
+        if href is not None:
+            urls.append(href)
+    return urls
 
 def intern_concept(concepttext):
     """ main recursive function """
