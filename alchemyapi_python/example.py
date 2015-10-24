@@ -20,16 +20,21 @@ def connect():
 
 def compareconcepts(urla, urlb):
 	connect = 0
+	total = 0
 	responsea = alchemyapi.concepts('url', urla)
 	responseb = alchemyapi.concepts('url', urlb)
 	if responsea['status'] != 'OK' or responseb['status'] != 'OK':
 		print('alchemy is fail')
 		exit()
+	for conceptb in responseb['concepts']:
+		total += float(conceptb['relevance'])
 	for concepta in responsea['concepts']:
+		total += float(concepta['relevance'])
 		for conceptb in responseb['concepts']:
 			if conceptb['text'] == concepta['text']:
 				connect += float(conceptb['relevance']) * float(concepta['relevance'])
-	return GAIN * connect / len(responsea)
+	print(total)
+	return GAIN * connect / total
 
 if __name__ == '__main__':
 	connect()
