@@ -1,12 +1,11 @@
 import sys
 import requests
 import urllib
-import simplejson
+import re
 import mysql.connector
-from py_bing_search import PyBingSearch
 from alchemyapi import AlchemyAPI
 
-bing = PyBingSearch('kQzdc8NrUs2wm7ksRH5L6brZOfhakmQB4k1+2kpCnm0')
+
 cur = None
 alchemyapi = AlchemyAPI()
 concepts_interned = []
@@ -34,38 +33,27 @@ def commit_urls(urls):
     for url in urls:
         cur.execute('INSERT INTO sites (url, visits) SELECT \''+url+'\', 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
 
-
 def get_alchemy_concepts(url):
-    """ Extract concepts from url """
+    """ TODO """
     response = alchemyapi.concepts('url', url)
     if response['status'] != 'OK': return None
     return response['concepts']
 
-def bing_urls(term):
-    response = bing.search(term, limit=10, format='json')
-    print(response)
-    return []
-
 def google_urls(term):
-    r = requests.post(url, data=json.dumps(payload))
     """ return list of urls returned by google search """
-    urls = []
-    url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.quote_plus(term))
+    url = ('https://www.google.com/search?q=%s' % urllib.parse.quote_plus(term))
     print('Scraping from url:  '+url)
-    response = requests.get(url).content
-    print('Response size: '+str(len(response)))
-    print('Response: '+response)
-    results = simplejson.loads(response)
-    if results['responseStatus'] != 200: return []
-    for result in results['responseData']['results']:
-        urls.append(result['unescapedUrl'])
-    return urls
+    html = requests.get(url).content
+    print('Response size: '+str(len(html)))
+    print('Response: '+html)
+    regex = re.compile('(^|\b)(https?:\/\/)([\da-zA-Z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*(\?[\da-zA-Z\%]+=[\da-zA-Z\%]+)?(\&[\da-zA-Z\%]+=[\da-zA-Z\%]+)*\/?($|\b)')
+    return regex.findAll(html)
 
 def intern_concept(concepttext):
     """ main recursive function """
     global concepts_interned
     concepts_interned.append(concepttext)
-    urls = bing_urls(concepttext)
+    urls = google_urls(concepttext)
     commit_urls(urls)
     if(len(urls)!=0):
         print('URLs: urls')
