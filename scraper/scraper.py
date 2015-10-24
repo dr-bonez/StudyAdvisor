@@ -23,7 +23,6 @@ def connect(start_term):
             exit()
         intern_concept(start_term)
     except mysql.connector.Error as e:
-        print('Cursor\'s last executed: '+cur._last_executed())
         print(e)
         exit()
     else:
@@ -35,7 +34,7 @@ def commit_urls(urls):
     cur = conn.cursor()
     for url in urls:
         print(url)
-        if(0==len(cur.execute('SELECT * FROM sites WHERE url=%s LIMIT 1;', (url)).fetchall())):
+        if(0==len(cur.execute('SELECT * FROM sites WHERE url=%s LIMIT 1;', (url,)).fetchall())):
             cur.execute('INSERT INTO sites (url, visits) VALUES (%s, 1000) ;', (url,))
     conn.commit()
 
