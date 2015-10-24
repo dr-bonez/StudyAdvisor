@@ -33,6 +33,7 @@ def commit_urls(urls):
     for url in urls:
         print(url)
         cur.execute('INSERT INTO sites (url, visits) SELECT %s, 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=%s) LIMIT 1;', (url, url))
+        print(cur._last_executed)
     conn.commit()
 
 def get_alchemy_concepts(url):
