@@ -23,7 +23,7 @@ def connect(start_term):
             exit()
         intern_concept(start_term)
     except mysql.connector.Error as e:
-        print('Cursor\'s last executed: '+cur._last_executed)
+        print('Cursor\'s last executed: '+cur._last_executed())
         print(e)
         exit()
     else:
