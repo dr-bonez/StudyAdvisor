@@ -50,9 +50,9 @@ def main(conn):
 			if (rowa[0] != rowb[0]):
 				cursori.execute("INSERT INTO connections (site_id, from_id, connections) SELECT " + str(rowa[0]) + ", " + str(rowb[0]) + ", " + str(compareconcepts(str(rowa[1]), str(rowb[1])) * weight) + " FROM dual WHERE NOT EXISTS (SELECT 1 FROM connections WHERE (site_id=" + str(rowa[0]) + " AND from_id=" + str(rowb[0]) + ") OR (site_id=" + str(rowb[0]) + " AND from_id=" + str(rowa[0]) + "));")
 #				print("INSERT INTO connections (site_id, from_id, connections) SELECT " + str(rowa[0]) + ", " + str(rowb[0]) + ", " + str(compareconcepts(str(rowa[1]), str(rowb[1])) * weight) + " FROM dual WHERE NOT EXISTS (SELECT 1 FROM connections WHERE (site_id=" + str(rowa[0]) + " AND from_id=" + str(rowb[0]) + ") OR (site_id=" + str(rowb[0]) + " AND from_id=" + str(rowa[0]) + "))")
+				conn.commit()
 			rowb = cursorb.fetchone()
 		rowa = cursora.fetchone()
-	conn.commit()
 
 if __name__ == '__main__':
 	connect()
