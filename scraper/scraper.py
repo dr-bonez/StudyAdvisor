@@ -32,7 +32,7 @@ def commit_urls(urls):
     global cur
     for url in urls:
         print(url)
-        cur.execute('INSERT INTO sites (url, visits) SELECT \''+url+'\', 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
+        cur.execute('INSERT INTO sites (url, visits) SELECT %s, 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=%s) LIMIT 1;', (url, url))
 
 def get_alchemy_concepts(url):
     """ TODO """
@@ -48,7 +48,7 @@ def google_urls(term):
     html = requests.get(url).content
     print('Response size: '+str(len(html)))
     regex = re.compile('class=\"r\"><a href=\"\/url\?q=http.*?\"')
-    return [x[26:-1] for x in regex.findall(html)]
+    return [x[26:x.find("&amp;")] for x in regex.findall(html)]
 
 def intern_concept(concepttext):
     """ main recursive function """
