@@ -14,6 +14,7 @@ def commit_urls():
 
 def get_alchemy_concepts(url):
     """ TODO """
+    global urls_interned
     pass
 
 def google_urls(term):
@@ -32,8 +33,9 @@ def intern_concept(concept):
     global concepts_interned
     urls = google_urls(start_term)
     concepts = get_alchemy_concepts(urls[0])
-    if concepts[0] not in concepts_interned:
-        concepts_interned.append(concepts[0])
+    for concept in concepts:
+        if concept not in concepts_interned:
+            concepts_interned.append(concepts[0])
 
 """ Main Routine """
 if __name__ == "__main__":
