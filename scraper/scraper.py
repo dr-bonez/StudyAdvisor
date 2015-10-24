@@ -3,11 +3,10 @@ import requests
 import urllib
 import simplejson
 import mysql.connector
-from bs4 import BeautifulSoup
-from pybing import Bing
+from py_bing_search import PyBingSearch
 from alchemyapi import AlchemyAPI
 
-bing = Bing('qW2D/Zd+GgmV4KYol+p7IS+GygoOf4Bd6PccrlvRCOo')
+bing = PyBingSearch('qW2D/Zd+GgmV4KYol+p7IS+GygoOf4Bd6PccrlvRCOo')
 cur = None
 alchemyapi = AlchemyAPI()
 concepts_interned = []
@@ -37,17 +36,15 @@ def commit_urls(urls):
 
 
 def get_alchemy_concepts(url):
-    """ TODO """
+    """ Extract concepts from url """
     response = alchemyapi.concepts('url', url)
     if response['status'] != 'OK': return None
     return response['concepts']
 
 def bing_urls(term):
-    response = bing.search_web(term)
+    response = bing.search(term, limit=10, format='json')
     print(response)
-    results = response['SearchResponse']['Web']['Results']
-    print(len(results))
-    for result in results[:3]:
+    for result in results:
         print(result)#['Title']
     return []
 
@@ -55,13 +52,16 @@ def google_urls(term):
     r = requests.post(url, data=json.dumps(payload))
     """ return list of urls returned by google search """
     urls = []
-    url = ('https://www.google.com/search?q=%s' % urllib.quote_plus(term))
+    url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.quote_plus(term))
     print('Scraping from url:  '+url)
     response = requests.get(url).content
+    print('Response size: '+str(len(response)))
     print('Response: '+response)
-    soup = BeautifulSoup(response)
-    print(soup.find('div', {'class':'srg'}))
-    return []
+    results = simplejson.loads(response)
+    if results['responseStatus'] != 200: return []
+    for result in results['responseData']['results']:
+        urls.append(result['unescapedUrl'])
+    return urls
 
 def intern_concept(concepttext):
     """ main recursive function """
