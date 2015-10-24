@@ -59,6 +59,7 @@ def intern_concept(concepttext):
         print('URLs: urls')
         i=0
         concepts = get_alchemy_concepts(urls[i])
+        out = False
         while(concepts is None and i < len(urls)-1): concepts = get_alchemy_concepts(urls[++i])
         while(i<len(urls)-1 and not out):
             for concept in concepts:
