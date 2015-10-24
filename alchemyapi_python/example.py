@@ -27,7 +27,7 @@ def compareconcepts(urla, urlb):
 	responseb = alchemyapi.concepts('url', urlb)
 	if responsea['status'] != 'OK' or responseb['status'] != 'OK':
 		print('alchemy is fail')
-		exit()
+		return 0
 	for conceptb in responseb['concepts']:
 		total += float(conceptb['relevance'])
 	for concepta in responsea['concepts']:
@@ -47,8 +47,9 @@ def main(conn):
 		cursorb.execute("SELECT id, url FROM sites")
 		rowb = cursorb.fetchone()
 		while rowb is not None:
-			if (rowa[0] != rowb[0]):
-				cursori.execute("INSERT INTO connections (site_id, from_id, connections) SELECT " + str(rowa[0]) + ", " + str(rowb[0]) + ", " + str(compareconcepts(str(rowa[1]), str(rowb[1])) * weight) + " FROM dual WHERE NOT EXISTS (SELECT 1 FROM connections WHERE (site_id=" + str(rowa[0]) + " AND from_id=" + str(rowb[0]) + ") OR (site_id=" + str(rowb[0]) + " AND from_id=" + str(rowa[0]) + "));")
+			cursori.execute("SELECT * FROM connections WHERE (site_id=" + str(rowa[0]) + " AND from_id=" + str(rowb[0]) + ") OR (site_id=" + str(rowb[0]) + " AND from_id=" + str(rowa[0]) + ") LIMIT 1;")
+			if ((rowa[0] != rowb[0]) and cursori.rowcount == 0):
+				cursori.execute("INSERT INTO connections (site_id, from_id, connections) VALUES (" + str(rowa[0]) + ", " + str(rowb[0]) + ", " + str(compareconcepts(str(rowa[1]), str(rowb[1])) * weight) + ");")
 #				print("INSERT INTO connections (site_id, from_id, connections) SELECT " + str(rowa[0]) + ", " + str(rowb[0]) + ", " + str(compareconcepts(str(rowa[1]), str(rowb[1])) * weight) + " FROM dual WHERE NOT EXISTS (SELECT 1 FROM connections WHERE (site_id=" + str(rowa[0]) + " AND from_id=" + str(rowb[0]) + ") OR (site_id=" + str(rowb[0]) + " AND from_id=" + str(rowa[0]) + "))")
 				conn.commit()
 			rowb = cursorb.fetchone()
