@@ -56,6 +56,7 @@ def url_in_db(url):
     global cur
     cur = conn.cursor()
     cur.execute('SELECT COUNT(*) FROM sites WHERE url is %s', url).fetchone()
+    conn.commit()
 
 def intern_concept(concepttext):
     """ main function """
