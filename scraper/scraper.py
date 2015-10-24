@@ -53,7 +53,7 @@ def intern_concept(concept):
         commit_url(urls[0])
         concepts = get_alchemy_concepts(urls[0])
         for concept in concepts:
-            if concept not in concepts_interned:
+            if concept['text'] not in concepts_interned:
                 intern_concept(concept['text'])
                 break
 
