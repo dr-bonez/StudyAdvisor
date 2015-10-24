@@ -6,6 +6,7 @@ import mysql.connector
 from alchemyapi import AlchemyAPI
 
 
+conn = None
 cur = None
 alchemyapi = AlchemyAPI()
 concepts_interned = []
@@ -14,14 +15,12 @@ concepts_interned = []
 def connect(start_term):
     """ Add all urls from urls_interned list to mySQL database """
     try:
+        global conn
         conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
         if not (conn.is_connected()):
             print('Could not connect to MySQL database')
             exit()
-        global cur
-        cur = conn.cursor()
-        intern_concept(start_term)
-        conn.commit()
+        intern_concept(start_term)x
     except mysql.connector.Error as e:
         print(e)
         exit()
@@ -30,12 +29,14 @@ def connect(start_term):
 
 def commit_urls(urls):
     global cur
+    cur = conn.cursor()
     for url in urls:
         print(url)
         cur.execute('INSERT INTO sites (url, visits) SELECT %s, 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=%s) LIMIT 1;', (url, url))
+    conn.commit()
 
 def get_alchemy_concepts(url):
-    """ TODO """
+    """ get alchemy concepts """
     response = alchemyapi.concepts('url', url)
     print(response)
     if response['status'] != 'OK': return None
@@ -54,7 +55,7 @@ def url_in_db(url):
     cur.execute('SELECT COUNT(*) FROM sites WHERE url is %s', url).fetchone()
 
 def intern_concept(concepttext):
-    """ main recursive function """
+    """ main function """
     global concepts_interned
     concepts_interned.append(concepttext)
     urls = google_urls(concepttext)
