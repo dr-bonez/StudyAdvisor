@@ -46,7 +46,7 @@ def google_urls(term):
     print('Scraping from url:  '+url)
     html = requests.get(url).content
     print('Response size: '+str(len(html)))
-    regex = re.compile('class=\"r\"><a href=\"http.*?\"')
+    regex = re.compile('class=\"r\">\s?<a href=\"http.*?\"')
     return [x[19:-1] for x in regex.findall(html)]
 
 def intern_concept(concepttext):
