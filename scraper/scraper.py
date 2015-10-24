@@ -20,7 +20,7 @@ def connect(start_term):
         if not (conn.is_connected()):
             print('Could not connect to MySQL database')
             exit()
-        intern_concept(start_term)x
+        intern_concept(start_term)
     except mysql.connector.Error as e:
         print(e)
         exit()
