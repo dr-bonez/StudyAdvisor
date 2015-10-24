@@ -59,16 +59,18 @@ def intern_concept(concepttext):
         i=0
         concepts = get_alchemy_concepts(urls[i])
         out = False
-        while(concepts is None and i < len(urls)-2):
+        while(concepts is None and i < len(urls)-1):
             i = i+1
             concepts = get_alchemy_concepts(urls[i])
-        for concept in concepts:
-            print('Checking concept: '+str(concept['text']))
-            if str(concept['text']) not in concepts_interned:
-                intern_concept(str(concept['text']))
-                break
-            else:
-                print(str(concept['text'])+' is already in concepts_interned')
+            print(concepts)
+        if (concepts is not None):
+            for concept in concepts:
+                print('Checking concept: '+str(concept['text']))
+                if str(concept['text']) not in concepts_interned:
+                    intern_concept(str(concept['text']))
+                    break
+                else:
+                    print(str(concept['text'])+' is already in concepts_interned')
     else:
         print('urls is empty')
 
