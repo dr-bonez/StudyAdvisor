@@ -1,45 +1,25 @@
-#!/usr/bin/python3
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-"""
-Shows how to control GoogleScraper programmatically.
-"""
-
 import sys
-from GoogleScraper import scrape_with_config, GoogleSearchError
-from GoogleScraper.database import ScraperSearch, SERP, Link
+import requests
+import urllib
+import simplejson
 
 
-### EXAMPLES OF HOW TO USE GoogleScraper ###
+def get_alchemy_content(url):
+    """ TODO """
+    pass
 
-# very basic usage
-def basic_usage():
-    # See in the config.cfg file for possible values
-    config = {
-        'SCRAPING': {
-            'use_own_ip': 'True',
-            'keyword': 'mathematics',
-            'search_engines': 'yandex',
-            'num_pages_for_keyword': 1
-        },
-        'SELENIUM': {
-            'sel_browser': 'chrome',
-        },
-        'GLOBAL': {
-            'do_caching': 'False'
-        }
-    }
+def google_urls(term):
+    """ return list of urls returned by google search """
+    urls = []
+    url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.parse.quote_plus(term))
+    response = requests.get(url).content
+    results = simplejson.loads(response)
+    for result in results['responseData']['results']:
+        urls.append(result['unescapedUrl'])
+    return urls
 
-    try:
-        sqlalchemy_session = scrape_with_config(config)
-    except GoogleSearchError as e:
-        print(e)
 
-    # let's inspect what we got
-
-    for search in sqlalchemy_session.query(ScraperSearch).all():
-        for serp in search.serps:
-            print(serp)
-            for link in serp.links:
-                print(link)
+""" Main Routine """
+if __name__ == "__main__":
+    start_term = sys.argv[1]
+    print(google_urls(start_term))
