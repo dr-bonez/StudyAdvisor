@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mysql -u root -p password -q "use study; $1"
+mysql -u root -p password --execute="use study; $1"
