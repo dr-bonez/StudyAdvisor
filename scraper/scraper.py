@@ -46,6 +46,7 @@ def google_urls(term):
     print('Scraping from url:  '+url)
     response = requests.get(url).content
     print('Response size: '+str(len(response)))
+    print('Response: '+response)
     results = simplejson.loads(response)
     if results['responseStatus'] != 200: return []
     for result in results['responseData']['results']:
