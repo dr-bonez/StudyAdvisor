@@ -38,6 +38,7 @@ def google_urls(term):
     url = ('https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=%sn&userip=USERS-IP-ADDRESS' % urllib.quote_plus(term))
     response = requests.get(url).content
     results = simplejson.loads(response)
+    if results['responseStatus'] != 200: return []
     for result in results['responseData']['results']:
         urls.append(result['unescapedUrl'])
     return urls
@@ -47,7 +48,7 @@ def intern_concept(concept):
     global concepts_interned
     concepts_interned.append(concept)
     urls = google_urls(concept)
-    commit_url(urls[0])
+    if(len(urls)!=0): commit_url(urls[0])
     concepts = get_alchemy_concepts(urls[0])
     for concept in concepts:
         if concept not in concepts_interned:
