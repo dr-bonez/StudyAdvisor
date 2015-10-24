@@ -48,6 +48,7 @@ def intern_concept(concept):
     global concepts_interned
     concepts_interned.append(concept)
     urls = google_urls(concept)
+    print(urls)
     if(len(urls)!=0):
         commit_url(urls[0])
         concepts = get_alchemy_concepts(urls[0])
