@@ -55,10 +55,12 @@ def google_urls(term):
     response = requests.get(url).content
     print('Response size: '+str(len(response)))
     print('Response: '+response)
-    results = simplejson.loads(response)
-    if results['responseStatus'] != 200: return []
-    for result in results['responseData']['results']:
-        urls.append(result['unescapedUrl'])
+    soup = BeautifulSoup(response)
+    for link in soup.findAll('a'):
+        href = link['href']
+        print('Link href: '+href)
+        if href is not None:
+            urls.append(href)
     return urls
 
 def intern_concept(concepttext):
