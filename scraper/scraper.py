@@ -7,7 +7,6 @@ from alchemyapi import AlchemyAPI
 
 
 conn = None
-cur = None
 alchemyapi = AlchemyAPI()
 concepts_interned = []
 
@@ -29,15 +28,12 @@ def connect(start_term):
 
 def commit_urls(urls):
     global conn
-    global cur
     cur = conn.cursor()
     for url in urls:
         print(url)
-        try:
-            cur.execute('INSERT INTO sites (url, visits) SELECT %s, 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=%s) LIMIT 1;', (url, url))
-        except:
-            print('Query failed: '+cur._last_executed)
-    conn.commit()
+        if(0==len(cur.execute("SELECT * FROM sites WHERE url='%s' LIMIT 1;" % url).fetchall())):  # can't handle titles with apostrophes
+            cur.execute("INSERT INTO sites (url, visits) VALUES (%s, 1000) ;" % url)
+        conn.commit()
 
 def get_alchemy_concepts(url):
     """ get alchemy concepts """
@@ -56,10 +52,10 @@ def google_urls(term):
     return [x[26:x.find("&amp;")] for x in regex.findall(html)]
 
 def url_in_db(url):
-    global cur
     cur = conn.cursor()
-    cur.execute('SELECT COUNT(*) FROM sites WHERE url is %s', url).fetchone()
+    in_db = (1==len(cur.execute("SELECT * FROM sites WHERE url='%s' LIMIT 1;" % url).fetchall()))
     conn.commit()
+    return in_db
 
 def intern_concept(concepttext):
     """ main function """
