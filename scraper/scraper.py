@@ -37,7 +37,7 @@ def commit_urls(urls):
 def get_alchemy_concepts(url):
     """ TODO """
     response = alchemyapi.concepts('url', url)
-    print(response['status'])
+    print(response)
     if response['status'] != 'OK': return None
     return response['concepts']
 
