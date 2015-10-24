@@ -52,6 +52,8 @@ def google_urls(term):
     return [x[26:x.find("&amp;")] for x in regex.findall(html)]
 
 def url_in_db(url):
+    global cur
+    cur = conn.cursor()
     cur.execute('SELECT COUNT(*) FROM sites WHERE url is %s', url).fetchone()
 
 def intern_concept(concepttext):
