@@ -10,7 +10,7 @@ alchemyapi = AlchemyAPI()
 concepts_interned = []
 
 
-def commit_url(url):
+def connect(start_term):
     """ Add all urls from urls_interned list to mySQL database """
     try:
         conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
@@ -18,13 +18,18 @@ def commit_url(url):
             print('Could not connect to MySQL database')
             exit()
         cur = conn.cursor()
-        cur.execute('INSERT INTO sites (url, visits) SELECT \''+url+'\', 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
+        intern_concept(start_term)
         conn.commit()
     except mysql.connector.Error as e:
         print(e)
         exit()
     else:
         conn.close()
+
+def commit_urls(urls):
+    for url in urls:
+        cur.execute('INSERT INTO sites (url, visits) SELECT \''+url+'\', 1000 FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
+
 
 def get_alchemy_concepts(url):
     """ TODO """
@@ -50,7 +55,7 @@ def intern_concept(concept):
     urls = google_urls(concept)
     if(len(urls)!=0):
         print(urls)
-        commit_url(urls[0])
+        commit_urls(urls)
         concepts = get_alchemy_concepts(urls[0])
         for concept in concepts:
             if concept['text'] not in concepts_interned:
@@ -61,5 +66,5 @@ def intern_concept(concept):
 if __name__ == "__main__":
     """ Main Routine """
     start_term = sys.argv[1]
-    intern_concept(start_term)
+    connect(start_term)
 
