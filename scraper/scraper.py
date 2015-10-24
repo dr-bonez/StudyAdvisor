@@ -60,8 +60,8 @@ def intern_concept(concepttext):
         concepts = get_alchemy_concepts(urls[i])
         out = False
         while(concepts is None and i < len(urls)-1):
-            print i
-            concepts = get_alchemy_concepts(urls[++i])
+            i = i+1
+            concepts = get_alchemy_concepts(urls[i])
         for concept in concepts:
             print('Checking concept: '+str(concept['text']))
             if str(concept['text']) not in concepts_interned:
