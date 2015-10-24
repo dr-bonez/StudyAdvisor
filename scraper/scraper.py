@@ -53,8 +53,9 @@ def google_urls(term):
 
 def url_in_db(url):
     cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) FROM sites WHERE url='%s'" % url).fetchone()
+    in_db = (1==len(cur.execute("SELECT * FROM sites WHERE url='%s' LIMIT 1;" % url).fetchall()))
     conn.commit()
+    return in_db
 
 def intern_concept(concepttext):
     """ main function """
