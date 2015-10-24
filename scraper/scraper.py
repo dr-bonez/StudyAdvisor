@@ -18,7 +18,7 @@ def commit_url(url):
             print('Could not connect to MySQL database')
             exit()
         cur = conn.cursor()
-        cur.execute('INSERT INTO sites (url, visits) SELECT url FROM (SELECT \''+url+'\') AS tmp WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
+        cur.execute('INSERT INTO sites (url, visits) SELECT url FROM (SELECT \''+url+'\') FROM DUAL WHERE NOT EXISTS (SELECT url FROM sites WHERE url=\''+url+'\') LIMIT 1;')
         conn.commit()
     except mysql.connector.Error as e:
         print(e)
