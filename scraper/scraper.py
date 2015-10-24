@@ -56,11 +56,12 @@ def intern_concept(concepttext):
     urls = google_urls(concepttext)
     commit_urls(urls)
     if(len(urls)!=0):
-        print('URLs: urls')
         i=0
         concepts = get_alchemy_concepts(urls[i])
         out = False
-        while(concepts is None and i < len(urls)-1): concepts = get_alchemy_concepts(urls[++i])
+        while(concepts is None and i < len(urls)-1):
+            print i
+            concepts = get_alchemy_concepts(urls[++i])
         for concept in concepts:
             print('Checking concept: '+str(concept['text']))
             if str(concept['text']) not in concepts_interned:
