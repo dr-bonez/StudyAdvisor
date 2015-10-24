@@ -57,14 +57,19 @@ def intern_concept(concepttext):
     commit_urls(urls)
     if(len(urls)!=0):
         print('URLs: urls')
-        concepts = get_alchemy_concepts(urls[0])
-        for concept in concepts:
-            print('Checking concept: '+str(concept['text']))
-            if str(concept['text']) not in concepts_interned:
-                intern_concept(str(concept['text']))
-                break
-            else:
-                print(str(concept['text'])+' is already in concepts_interned')
+        i=0
+        concepts = get_alchemy_concepts(urls[i])
+        while(concepts is None and i < len(urls)-1): concepts = get_alchemy_concepts(urls[++i])
+        while(i<len(urls)-1 and not out):
+            for concept in concepts:
+                print('Checking concept: '+str(concept['text']))
+                if str(concept['text']) not in concepts_interned:
+                    intern_concept(str(concept['text']))
+                    out = True
+                    break
+                else:
+                    print(str(concept['text'])+' is already in concepts_interned')
+            concepts = get_alchemy_concepts(urls[++i])
     else:
         print('urls is empty')
 
