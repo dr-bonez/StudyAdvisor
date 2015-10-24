@@ -41,13 +41,12 @@ def get_alchemy_concepts(url):
 
 def google_urls(term):
     """ return list of urls returned by google search """
-    url = ('https://www.google.com/search?q=%s' % urllib.parse.quote_plus(term))
+    url = ('https://www.google.com/search?q=%s' % urllib.quote_plus(term))
     print('Scraping from url:  '+url)
     html = requests.get(url).content
     print('Response size: '+str(len(html)))
-    print('Response: '+html)
-    regex = re.compile('(^|\b)(https?:\/\/)([\da-zA-Z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*(\?[\da-zA-Z\%]+=[\da-zA-Z\%]+)?(\&[\da-zA-Z\%]+=[\da-zA-Z\%]+)*\/?($|\b)')
-    return regex.findAll(html)
+    regex = re.compile('(https?:\/\/)([\da-zA-Z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*(\?[\da-zA-Z\%]+=[\da-zA-Z\%]+)?(\&[\da-zA-Z\%]+=[\da-zA-Z\%]+)*\/?')
+    return regex.findall(html)
 
 def intern_concept(concepttext):
     """ main recursive function """
