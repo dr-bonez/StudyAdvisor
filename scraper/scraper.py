@@ -76,5 +76,5 @@ if __name__ == "__main__":
     global concepts_interned
     start_term = sys.argv[1]
     connect(start_term)
-    print('Final concepts_interned: '+concepts_interned)
+    print(concepts_interned)
 
