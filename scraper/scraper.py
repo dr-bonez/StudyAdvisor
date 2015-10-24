@@ -5,7 +5,7 @@ import simplejson
 import mysql.connector
 from alchemyapi import AlchemyAPI
 
-cur
+cur = None
 alchemyapi = AlchemyAPI()
 concepts_interned = []
 
