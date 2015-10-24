@@ -60,6 +60,7 @@ def intern_concept(concept):
         commit_urls(urls)
         concepts = get_alchemy_concepts(urls[0])
         for concept in concepts:
+            print(concept['text'])
             if concept['text'] not in concepts_interned:
                 intern_concept(concept['text'])
                 break
@@ -67,6 +68,7 @@ def intern_concept(concept):
 
 if __name__ == "__main__":
     """ Main Routine """
+    global concepts_interned
     start_term = sys.argv[1]
     connect(start_term)
     print(concepts_interned)
