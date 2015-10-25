@@ -22,7 +22,7 @@ def get_weight(site, conn):
     cur.execute('SELECT SUM(connections) FROM connections WHERE (site_id=%s OR from_id=%s);', (site, site))
     weight = cur.fetchone()[0]
     conn.commit()
-    return weight
+    return int(weight)
 
 def get_suggestions(uid):
     """
