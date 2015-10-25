@@ -46,10 +46,10 @@ def main():
 				conn.commit()
 			
 	except mysql.connector.Error as e:
-		print(e)
+		return str(e)
 	else:
 		conn.close()
-		#return get_suggestions(user_id)
+		return connections.get_suggestions(user_id)
 	
 
 if __name__ == '__main__':
