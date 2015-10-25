@@ -7,9 +7,10 @@ def connect(start_term):
         if not (conn.is_connected()):
             print('Could not connect to MySQL database')
             exit()
-        global cur
         cur = conn.cursor()
-        intern_concept(start_term)
+	urls = cur.execute("SELECT url,site_id FROM sites")
+	for row in cur.fetchall():
+		row[0]
         conn.commit()
     except mysql.connector.Error as e:
         print(e)
