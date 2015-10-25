@@ -19,7 +19,7 @@ function get_device() {
 }
 
 function display_link(link){
-    if(typeof link == undefined){
+    if(typeof link == "undefined"){
         alert("We do not have a recommendation for you at this time.");
     }
     else{
