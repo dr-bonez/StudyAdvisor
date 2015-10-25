@@ -49,7 +49,7 @@ def main(uid):
     scores = []
     for site in candidatesites:
         scores.append((site, get_weight(site)))
-    scores = sorted(scores, key=lambda x: x[1])
+    scores = sorted(scores, key=lambda x: x[1], reverse = True)
     for score in scores:
         print(score)
 
