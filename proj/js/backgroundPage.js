@@ -2,7 +2,7 @@ var studyModeEnabled = true;
 var current_url;
 var referer;
 
-
+var com_port;
 var url_rec;
 
 function get_url() {
@@ -16,6 +16,7 @@ function get_url() {
 chrome.extension.onConnect.addListener(function(port) {
     console.log("Connected .....");
     port.onMessage.addListener(function(msg) {
+        com_port = port;
         console.log("message recieved"+ msg);
         port.postMessage(url_rec);
     });
@@ -50,9 +51,7 @@ chrome.webNavigation.onCompleted.addListener(function(details) {
             display_link(data);
             arr = eval(data);
             url_rec = arr[0];
-            $("#recommendation_url").text(url_rec);
-            $("#recommendation_url").href(url_rec);
-
+            com_port(url_rec);
         },
 
         error: function(data) {

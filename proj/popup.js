@@ -8,6 +8,8 @@ var port = chrome.extension.connect({name: "Sample Communication"});
 port.postMessage("Hi BackGround");
 port.onMessage.addListener(function(url) {
   console.log("message recieved"+ url);
+  $("#recommendation_url").text(url);
+  $("#recommendation_url").href(url);
 });
 
 function notifyMe() {
