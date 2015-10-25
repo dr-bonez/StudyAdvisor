@@ -24,6 +24,13 @@ def get_weight(site, conn):
     conn.commit()
     return int(weight)
 
+def get_url(site, conn):
+    cur = conn.cursor()
+    cur.execute('SELECT url FROM sites WHERE (id=%s);', (site,))
+    url = cur.fetchone()[0]
+    conn.commit()
+    return url
+
 def get_suggestions(uid):
     """
     :param uid: The userid
@@ -44,5 +51,9 @@ def get_suggestions(uid):
     for site in candidatesites:
         scores.append((site, get_weight(site, conn)))
     scores = sorted(scores, key=lambda x: x[1], reverse = True)
-    for score in scores: print(score)
+    # return corresponding urls
+    urls = []
+    for score in scores:
+        site = score[0]
+        urls.append(get_url(site))
     return scores
