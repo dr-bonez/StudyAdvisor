@@ -22,11 +22,11 @@ def get_recent_sites(uid, n=1):
     """ return a list of the last n siteids a user has visited """
     cur = conn.cursor()
     result = cur.execute('SELECT site_id FROM users_join ORDER BY date DESC LIMIT 5;')
-    conn.commit()
     if(result is None):
         print("result is None")
     else:
         recent = result.fetchall()
+    conn.commit()
     return recent;
 
 def get_weight(site):
@@ -42,7 +42,6 @@ def main(uid):
     for site in usersites:
         cur = conn.cursor()
         neighbors = cur.execute('SELECT siteid, connections FROM sites, connections WHERE sites.id = connections.site_id AND (site_id=%s OR from_id=%s);', (site, site))
-        conn.commit()
         if(len(neighbors)==0):
             print("neighbors is empty")
         else:
@@ -50,6 +49,8 @@ def main(uid):
                 neighborid = neighbor[0]
                 if(neighborid not in allsites):
                     allsites.append(neighborid)
+
+        conn.commit()
     scores = []
     for site in allsites:
         scores.append((site, get_weight(site)))
