@@ -4,14 +4,31 @@
  value "popup.html".
  -->
 <html>
-  <head>
+<!-- stylesheets -->
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../css/global.css" />
+        <link rel="stylesheet" type="text/css" href="../css/main.css" />
+ 
+        <!-- javascript -->
+        <script type="text/javascript" src="../js/jquery-2.0.1.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script> 
+ <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Getting Started Extension's Popup</title>
     <script src= "popup.js"></script>
     <div style="color:#0000FF min-height=1000px">
-       <p>Study Advisor <p>
-       <button id="btn1">Study On</button>
-       <button id="btn2">Turn Off</button>
-       <p>uh<p>
+	<div class="page-header">
+  		<h1>Study Advisor </h1>
+	</div>
+
+
+<p>
+  <button type="button" id="btn1" class="btn btn-primary btn-lg">On button</button>
+  <button type="button" id="btn2" class="btn btn-default btn-lg">Off button</button>
+</p>
+
+  <button type="button" id="btn3" class="btn btn-default btn-lg">Links</button>
+
     </div>
     <style>
       body {
