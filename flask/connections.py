@@ -31,10 +31,10 @@ def get_url(site, conn):
     conn.commit()
     return url
 
-def get_suggestions(uid):
+def get_suggestions(uid, max_len):
     """
     :param uid: The userid
-    :return: A list of (userid, connection) tuples sorted by connection in descending order
+    :return: A at list of length at most max_len (userid, connection) tuples sorted by connection in descending order
     """
     conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
     usersites = get_recent_sites(5, conn)
@@ -55,5 +55,5 @@ def get_suggestions(uid):
     urls = []
     for score in scores:
         site = score[0]
-        urls.append(get_url(site, conn))
-    return urls
+        urls.append((site, get_url(site, conn)))
+    return urls[:max_len]
