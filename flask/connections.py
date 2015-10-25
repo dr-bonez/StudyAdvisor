@@ -22,10 +22,7 @@ def get_recent_sites(uid, n=1):
     """ return a list of the last n siteids a user has visited """
     cur = conn.cursor()
     cur.execute('SELECT site_id FROM users_join ORDER BY date DESC LIMIT 5;')
-    if(result is None):
-        print("result is None")
-    else:
-        recent = cur.fetchall()
+    recent = cur.fetchall()
     conn.commit()
     return recent;
 
