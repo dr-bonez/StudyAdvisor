@@ -8,6 +8,7 @@ app = Flask(__name__)
 @app.route("/.json", methods=["POST"])
 def main():
 	user_id = 0
+	print(request.form)
 	try:
 		conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
 		cur = conn.cursor()

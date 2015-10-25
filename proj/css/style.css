@@ -1,8 +1,6 @@
 body {
     text-align:center;
     font-family: Lato !important;
-    background-image:url("blue_background.png");
-    background-size:cover;
     min-width: 200px !important;
     min-height: 150px
 }
