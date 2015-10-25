@@ -45,8 +45,7 @@ def get_suggestions(uid):
     for site in candidatesites:
         scores.append((site, get_weight(site)))
     scores = sorted(scores, key=lambda x: x[1], reverse = True)
-    for score in scores:
-        printd(score)
+    return scores
 
 
 if __name__ == "__main__":
