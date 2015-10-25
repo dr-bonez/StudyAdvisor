@@ -33,7 +33,6 @@ def get_weight(site):
     cur.execute('SELECT SUM(connections) FROM connections WHERE (site_id=%s OR from_id=%s);', (site, site))
     weight = cur.fetchone()
     conn.commit()
-    print(weight)
     return weight
 
 def main(uid):
