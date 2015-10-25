@@ -16,7 +16,7 @@ def main():
 		cur.execute("INSERT INTO users (device_name) SELECT %s FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM users WHERE device_name=%s);", (device_name, device_name))
 		conn.commit()
 		cur.execute("SELECT id FROM users WHERE device_name=%s LIMIT 1;", (device_name,))
-		user_id = cur.fetchone()
+		user_id = cur.fetchone()[0]
 		date = datetime.datetime.now()
 		url = request.form['url']
 		referer = request.form['referer']
@@ -25,13 +25,13 @@ def main():
 		cur.execute("SELECT * FROM `ignore` WHERE domain=%s LIMIT 1;", (domain,));
 		if (len(cur.fetchall()) == 0):
 			cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
-			site_id = cur.fetchone()
+			site_id = cur.fetchone()[0]
 			if referer is None:
 				cur.execute("SELECT site_id FROM users_join WHERE user_id=%s ORDER BY date DESC LIMIT 1;", user_id)
-				from_id = cur.fetchone()
+				from_id = cur.fetchone()[0]
 			else:
 				cur.execute("SELECT id FROM  sites WHERE url=%s LIMIT 1;", (referer,))
-				from_id = cur.fetchone()
+				from_id = cur.fetchone()[0]
 			cur.execute("INSERT INTO users_join (user_id, site_id, from_id, date) VALUES (%s, %s, %s, %s)", (user_id, site_id, from_id, date))
 			if from_id is not None:
 				cur.execute("UPDATE sites SET visits=visits+1 WHERE id=%s OR id=%s", (site_id, from_id))
@@ -41,13 +41,14 @@ def main():
 				if connect is None:
 					cur.execute("INSERT INTO connections (site_id, from_id, connections) VALUES (%s, %s, 1);", (site_id, from_id))
 				else:
-					cur.execute("UPDATE connections SET connections=connections+1 WHERE id=%s", (connect[0],))
+					cur.execute("UPDATE connections c SET c.connections=c.connections+1 WHERE id=%s", (connect[0],))
+				conn.commit()
 			
 	except mysql.connector.Error as e:
-		return e
+		print(e)
 	else:
 		conn.close()
-		return get_suggestions(user_id)
+		#return get_suggestions(user_id)
 	
 
 if __name__ == '__main__':
