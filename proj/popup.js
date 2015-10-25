@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     Notification.requestPermission();
 });
 
+var port = chrome.extension.connect({name: "Sample Communication"});
+port.postMessage("Hi BackGround");
+port.onMessage.addListener(function(url) {
+  console.log("message recieved"+ url);
+});
+
 function notifyMe() {
   if (!Notification) {
     alert('Desktop notifications not available in your browser. Try Chromium.'); 

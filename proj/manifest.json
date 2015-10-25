@@ -21,6 +21,7 @@
   "content_security_policy": "script-src 'self' http://23.96.26.252:5000; object-src 'self' http://23.96.26.252:5000; connect-src 'self' http://23.96.26.252:5000 http://*/ https://*/",
 
   "permissions": [
+    "tabs",
     "activeTab",
     "webNavigation",
     "http://23.96.26.252:5000/.json",
