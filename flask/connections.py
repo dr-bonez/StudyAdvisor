@@ -46,7 +46,3 @@ def get_suggestions(uid):
         scores.append((site, get_weight(site)))
     scores = sorted(scores, key=lambda x: x[1], reverse = True)
     return scores
-
-
-if __name__ == "__main__":
-    #get_suggestions(1)

@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.route("/.json", methods=["POST"])
 def main():
+	user_id = 0
 	try:
 		conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
 		cur = conn.cursor()
@@ -20,7 +21,10 @@ def main():
 		user_id = cur.fetchone()[0]
 		date = datetime.datetime.now()
 		url = request.form['url']
-		referer = request.form['referer']
+		if 'referer' in request.form:
+			referer = request.form['referer']
+		else:
+			referer = None
 		parsed_uri = urlparse(url)
 		domain = ('{uri.netloc}'.format(uri=parsed_uri)).replace('www.', '')
 		cur.execute("SELECT * FROM `ignore` WHERE domain=%s LIMIT 1;", (domain,));
@@ -28,7 +32,7 @@ def main():
 			cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
 			site_id = cur.fetchone()[0]
 			if referer is None:
-				cur.execute("SELECT site_id FROM users_join WHERE user_id=%s ORDER BY date DESC LIMIT 1;", user_id)
+				cur.execute("SELECT site_id FROM users_join WHERE user_id=%s ORDER BY date DESC LIMIT 1;", (user_id))
 				from_id = cur.fetchone()[0]
 			else:
 				cur.execute("SELECT id FROM  sites WHERE url=%s LIMIT 1;", (referer,))
@@ -43,13 +47,12 @@ def main():
 					cur.execute("INSERT INTO connections (site_id, from_id, connections) VALUES (%s, %s, 1);", (site_id, from_id))
 				else:
 					cur.execute("UPDATE connections c SET c.connections=c.connections+1 WHERE id=%s", (connect[0],))
-				conn.commit()
-			
+				conn.commit()		
 	except mysql.connector.Error as e:
 		return str(e)
 	else:
 		conn.close()
-		return connections.get_suggestions(user_id)
+		return json.dumps(connections.get_suggestions(user_id))
 	
 
 if __name__ == '__main__':
