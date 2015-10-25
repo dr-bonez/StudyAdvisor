@@ -55,5 +55,5 @@ def get_suggestions(uid, max_len):
     urls = []
     for score in scores:
         site = score[0]
-        urls.append((site, get_url(site, conn)))
+        urls.append(get_url(site, conn))
     return urls[:max_len]
