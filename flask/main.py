@@ -18,7 +18,9 @@ def main():
 		cur.execute("INSERT INTO users (device_name) SELECT %s FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM users WHERE device_name=%s);", (device_name, device_name))
 		conn.commit()
 		cur.execute("SELECT id FROM users WHERE device_name=%s LIMIT 1;", (device_name,))
-		user_id = cur.fetchone()[0]
+		user_id_row = cur.fetchone()
+		if(user_id_row is None): return "User not found"
+		user_id = user_id_row[0]
 		date = datetime.datetime.now()
 		url = request.form['url']
 		if 'referer' in request.form:
@@ -30,13 +32,25 @@ def main():
 		cur.execute("SELECT * FROM `ignore` WHERE domain=%s LIMIT 1;", (domain,));
 		if (len(cur.fetchall()) == 0):
 			cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
-			site_id = cur.fetchone()[0]
-			if referer is None:
+			site_id_row = cur.fetchone()
+			if(site_id_row is None):
+				cur.execute("INSERT INTO sites (url, visits) VALUES (%s, %s);", (url, 0))
+				conn.commit()
+				cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
+				site_id_row = cur.fetchone()
+			site_id = site_id_row[0]
+			if referer == "":
 				cur.execute("SELECT site_id, date FROM users_join WHERE user_id='" + str(user_id) + "' ORDER BY date DESC;")
-				from_id = cur.fetchone()[0]
+				from_id_row = cur.fetchone()
 			else:
 				cur.execute("SELECT id FROM  sites WHERE url=%s LIMIT 1;", (referer,))
-				from_id = cur.fetchone()[0]
+				from_id_row = cur.fetchone()
+            if(from_id_row is None):
+				cur.execute("INSERT INTO sites (url, visits) VALUES (%s, %s);", (url, 0))
+				conn.commit()
+				cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
+				from_id_row = cur.fetchone()
+			from_id = from_id_row[0]
 			cur.execute("INSERT INTO users_join (user_id, site_id, from_id, date) VALUES (%s, %s, %s, %s)", (user_id, site_id, from_id, date))
 			if from_id is not None:
 				cur.execute("UPDATE sites SET visits=visits+1 WHERE id=%s OR id=%s", (site_id, from_id))
@@ -51,8 +65,8 @@ def main():
 					conn.commit()		
 	except mysql.connector.Error as e:
 		ret = Response(str(e))
-                ret.headers['Access-Control-Allow-Origin'] = '*'
-                return ret
+		ret.headers['Access-Control-Allow-Origin'] = '*'
+		return ret
 	else:
 		conn.close()
 		ret = Response(json.dumps(connections.get_suggestions(user_id, 10)))

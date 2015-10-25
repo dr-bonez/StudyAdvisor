@@ -9,7 +9,7 @@ port.postMessage("Hi BackGround");
 port.onMessage.addListener(function(url) {
   console.log("message recieved"+ url);
   $("#recommendation_url").text(url);
-  $("#recommendation_url").href(url);
+  $("#recommendation_url").attr("href", url);
 });
 
 function notifyMe() {
