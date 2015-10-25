@@ -4,12 +4,21 @@ document.addEventListener('DOMContentLoaded', function () {
     Notification.requestPermission();
 });
 
-var port = chrome.extension.connect({name: "Sample Communication"});
-port.postMessage("Hi BackGround");
-port.onMessage.addListener(function(url) {
-  console.log("message recieved"+ url);
-  $("#recommendation_url").text(url);
-  $("#recommendation_url").attr("href", url);
+var btn1 = $('#btn1');
+btn1.click(function(){
+  if(btn1.text()=='Study On') {
+    btn1.text('Study Off');
+  }
+  else {
+    btn1.text('Study On');
+  }
+});
+
+var btn2 = $('#btn2');
+btn2.click(function(){
+  chrome.runtime.sendMessage({
+    type: 'rec'
+  });
 });
 
 function notifyMe() {

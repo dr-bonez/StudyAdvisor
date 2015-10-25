@@ -23,10 +23,10 @@ def main():
 		user_id = user_id_row[0]
 		date = datetime.datetime.now()
 		url = request.form['url']
-		if 'referer' in request.form:
-			referer = request.form['referer']
-		else:
-			referer = None
+		#if 'referer' in request.form:
+		#	referer = request.form['referer']
+		#else:
+		referer = None
 		parsed_uri = urlparse(url)
 		domain = ('{uri.netloc}'.format(uri=parsed_uri)).replace('www.', '')
 		cur.execute("SELECT * FROM `ignore` WHERE domain=%s LIMIT 1;", (domain,));
@@ -39,19 +39,20 @@ def main():
 				cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
 				site_id_row = cur.fetchone()
 			site_id = site_id_row[0]
-			if referer == "":
+			if referer == None:
 				cur.execute("SELECT site_id, date FROM users_join WHERE user_id='" + str(user_id) + "' ORDER BY date DESC;")
 				from_id_row = cur.fetchone()
 			else:
 				cur.execute("SELECT id FROM  sites WHERE url=%s LIMIT 1;", (referer,))
 				from_id_row = cur.fetchone()
-            if(from_id_row is None):
+                        if(from_id_row is None):
 				cur.execute("INSERT INTO sites (url, visits) VALUES (%s, %s);", (url, 0))
 				conn.commit()
 				cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
 				from_id_row = cur.fetchone()
 			from_id = from_id_row[0]
-			cur.execute("INSERT INTO users_join (user_id, site_id, from_id, date) VALUES (%s, %s, %s, %s)", (user_id, site_id, from_id, date))
+			if (site_id != from_id):
+				cur.execute("INSERT INTO users_join (user_id, site_id, from_id, date) VALUES (%s, %s, %s, %s)", (user_id, site_id, from_id, date))
 			if from_id is not None:
 				cur.execute("UPDATE sites SET visits=visits+1 WHERE id=%s OR id=%s", (site_id, from_id))
 				conn.commit()
