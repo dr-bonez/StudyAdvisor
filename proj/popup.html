@@ -4,6 +4,7 @@
  value "popup.html".
  -->
 <html>
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
     <script type="text/javascript" src="../js/jquery-2.0.1.min.js"></script>
     <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -14,7 +15,7 @@
 	<body>
 	<div class="container">
 	<style> 
-	body{ background-color: #FFF00F; !important min-width: 500px; min-height: 300px}
+	body{font-family: Lato; background-color: #FFF00F; !important min-width: 500px; min-height: 300px}
 	</style>
     <script src= "popup.js"></script>
 	<div class="page-header">
@@ -24,17 +25,16 @@
 	<button type="button" id="btn1" class="btn btn-primary btn-lg">On button</button>
 	<br>
 	</div>
-	<!-- Single button -->
-	<div class="btn-group">
-  <button type="button" class="btn btn-danger">Action</button>
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
+	<br>
+<!-- Single button -->
+<div class="btn-group">
+  <button style="background-color: #337ab7; " type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Link <span class="caret"></span>
   </button>
 	<ul class="dropdown-menu">
-		<li><a href="#">Link 1</a></li>
-		<li><a href="#">Link 2</a></li>
-		<li><a href="#">Link 3</a></li>
+		<li><a href="https://github.com">Link 1</a></li>
+		<li><a href="https://github.com">Link 2</a></li>
+		<li><a href="https://github.com">Link 3</a></li>
 	</ul>
 </div>
     <!--
