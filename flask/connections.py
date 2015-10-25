@@ -51,4 +51,4 @@ def main(uid):
 
 
 if __name__ == "__main__":
-    start_term = sys.argv[1]
+    main(1)
