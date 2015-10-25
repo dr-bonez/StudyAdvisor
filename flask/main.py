@@ -50,13 +50,13 @@ def main():
 				conn.commit()		
 	except mysql.connector.Error as e:
 		ret = Response(str(e))
-        ret.headers['Access-Control-Allow-Origin'] = '*'
-        return ret
+                ret.headers['Access-Control-Allow-Origin'] = '*'
+                return ret
 	else:
 		conn.close()
 		ret = Response(json.dumps(connections.get_suggestions(user_id, 10)))
 		ret.headers['Access-Control-Allow-Origin'] = '*'
-        return ret
+		return ret
 	
 
 if __name__ == '__main__':
