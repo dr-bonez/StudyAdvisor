@@ -54,7 +54,7 @@ def main():
         return ret
 	else:
 		conn.close()
-		ret = json.dumps(connections.get_suggestions(user_id, 10))
+		ret = Response(json.dumps(connections.get_suggestions(user_id, 10)))
 		ret.headers['Access-Control-Allow-Origin'] = '*'
         return ret
 	
