@@ -18,14 +18,14 @@ def main():
 		cur.execute("SELECT id FROM users WHERE device_name=%s LIMIT 1;", (device_name,))
 		user_id = cur.fetchone()
 		date = datetime.datetime.now()
+		url = request.form['url']
+		referer = request.form['referer']
 		parsed_uri = urlparse(url)
 		domain = ('{uri.netloc}'.format(uri=parsed_uri)).replace('www.', '')
 		cur.execute("SELECT * FROM `ignore` WHERE domain=%s LIMIT 1;", (domain,));
 		if (len(cur.fetchall()) == 0):
-			url = request.form['url']
 			cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
 			site_id = cur.fetchone()
-			referer = request.form['referer']
 			if referer is None:
 				cur.execute("SELECT site_id FROM users_join WHERE user_id=%s ORDER BY date DESC LIMIT 1;", user_id)
 				from_id = cur.fetchone()
