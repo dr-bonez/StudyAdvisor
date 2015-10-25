@@ -4,64 +4,40 @@
  value "popup.html".
  -->
 <html>
-        <script type="text/javascript" src="../js/jquery-2.0.1.min.js"></script>
-        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.0.1.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-
- <head>
-<body>
-<div class="container">
-  <style> 
-body{ background-color: #FFF00F; !important min-width: 500px; min-height: 500px}</style>
-
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" 
+	integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<head>
+	</head>
+	<body>
+	<div class="container">
+	<style> 
+	body{ background-color: #FFF00F; !important min-width: 500px; min-height: 300px}
+	</style>
     <script src= "popup.js"></script>
-   
 	<div class="page-header">
   		<h1>Study Advisor </h1>
 	</div>
-
-
-<p>
-  <button type="button" id="btn1" class="btn btn-primary btn-lg">On button</button>
-</p>
-<p>
-  <button type="button" id="btn2" class="btn btn-default btn-lg">Off button</button>
-</p>
-
-
-
-<button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Dropdown Button</button><br>
-<ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true">
-  <li><a href="#">This is a link</a></li>
-  <li><a href="#">This is another</a></li>
-  <li><a href="#">Yet another</a></li>
-</ul>
-
-    </div>
-    <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-
-
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        min-width: 500px !important;
-        min-height: 575px !important;
-	
-   
-      }
-
-
-    </style>
-
-
+	<br>
+	<button type="button" id="btn1" class="btn btn-primary btn-lg">On button</button>
+	<br>
+	<br>
+	<button type="button" id="btn2" class="btn btn-default btn-lg">Off button</button>
+	<br>
+	</div>
+	<!-- Single button -->
+	<div class="btn-group">
+	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	Links <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu">
+		<li><a href="#">Link 1</a></li>
+		<li><a href="#">Link 2</a></li>
+		<li><a href="#">Link 3</a></li>
+	</ul>
+</div>
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
       - Policy documentation[1] for details and explanation.
@@ -70,6 +46,6 @@ body{ background-color: #FFF00F; !important min-width: 500px; min-height: 500px}
      -->
 <!--    <script src="popup.js"></script> -->
 </body>
-  </head>
+  
 </html>
 
