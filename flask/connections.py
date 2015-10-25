@@ -40,8 +40,8 @@ def main(uid):
     allsites = list(usersites)  # copy usersites
     for site in usersites:
         cur = conn.cursor()
-        neighbors = cur.execute('SELECT site_id, connections FROM sites, connections WHERE sites.id = connections.site_id AND (site_id=%s OR from_id=%s);', (site, site))
-        for neighbor in neighbors.fetchall():
+        cur.execute('SELECT site_id, connections FROM sites, connections WHERE sites.id = connections.site_id AND (site_id=%s OR from_id=%s);', (site, site))
+        for neighbor in cur.fetchall():
             neighborid = neighbor[0]
             if(neighborid not in allsites):
                 allsites.append(neighborid)
