@@ -10,7 +10,7 @@ def main():
 	user_id = 0
 	try:
 		conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
-		cur = conn.cursor()
+		cur = conn.cursor(buffered=True)
 		if not (conn.is_connected()):
 			print('Could not connect to MySQL database')
 			exit()
@@ -32,7 +32,7 @@ def main():
 			cur.execute("SELECT id FROM sites WHERE url=%s LIMIT 1;", (url,))
 			site_id = cur.fetchone()[0]
 			if referer is None:
-				cur.execute("SELECT site_id FROM users_join WHERE user_id=%s ORDER BY date DESC LIMIT 1;", (user_id))
+				cur.execute("SELECT site_id, date FROM users_join WHERE user_id='" + str(user_id) + "' ORDER BY date DESC;")
 				from_id = cur.fetchone()[0]
 			else:
 				cur.execute("SELECT id FROM  sites WHERE url=%s LIMIT 1;", (referer,))
@@ -45,9 +45,10 @@ def main():
 				connect = cur.fetchone()
 				if connect is None:
 					cur.execute("INSERT INTO connections (site_id, from_id, connections) VALUES (%s, %s, 1);", (site_id, from_id))
+					conn.commit()		
 				else:
 					cur.execute("UPDATE connections c SET c.connections=c.connections+1 WHERE id=%s", (connect[0],))
-				conn.commit()		
+					conn.commit()		
 	except mysql.connector.Error as e:
 		ret = Response(str(e))
                 ret.headers['Access-Control-Allow-Origin'] = '*'
