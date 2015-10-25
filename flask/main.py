@@ -52,7 +52,7 @@ def main():
 		return str(e)
 	else:
 		conn.close()
-		return json.dumps(connections.get_suggestions(user_id))
+		return str(user_id)+json.dumps(connections.get_suggestions(user_id))
 	
 
 if __name__ == '__main__':
