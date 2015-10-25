@@ -56,4 +56,4 @@ def get_suggestions(uid):
     for score in scores:
         site = score[0]
         urls.append(get_url(site, conn))
-    return scores
+    return urls
