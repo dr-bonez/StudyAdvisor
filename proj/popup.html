@@ -4,19 +4,20 @@
  value "popup.html".
  -->
 <html>
-<!-- stylesheets -->
-        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="../css/global.css" />
-        <link rel="stylesheet" type="text/css" href="../css/main.css" />
- 
-        <!-- javascript -->
         <script type="text/javascript" src="../js/jquery-2.0.1.min.js"></script>
-        <script type="text/javascript" src="../js/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
  <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Getting Started Extension's Popup</title>
+<body>
+<div class="container">
+  <style> 
+body{ background-color: #FFF00F; !important min-width: 500px; min-height: 500px}</style>
+
+
     <script src= "popup.js"></script>
-    <div style="color:#0000FF min-height=1000px">
+   
 	<div class="page-header">
   		<h1>Study Advisor </h1>
 	</div>
@@ -24,10 +25,19 @@
 
 <p>
   <button type="button" id="btn1" class="btn btn-primary btn-lg">On button</button>
+</p>
+<p>
   <button type="button" id="btn2" class="btn btn-default btn-lg">Off button</button>
 </p>
 
-  <button type="button" id="btn3" class="btn btn-default btn-lg">Links</button>
+
+
+<button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Dropdown Button</button><br>
+<ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true">
+  <li><a href="#">This is a link</a></li>
+  <li><a href="#">This is another</a></li>
+  <li><a href="#">Yet another</a></li>
+</ul>
 
     </div>
     <style>
@@ -35,14 +45,17 @@
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
 
+
       }
       #status {
         /* avoid an excessively wide status text */
         white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
-        max-width: 800px;
-        max-height: 3000px;
+        min-width: 500px !important;
+        min-height: 575px !important;
+	
+   
       }
 
 
@@ -56,11 +69,7 @@
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
 <!--    <script src="popup.js"></script> -->
-
+</body>
   </head>
-  <body>
-    <div id="status"></div>
-    <img id="image-result" hidden>
-  </body>
 </html>
 
