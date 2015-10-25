@@ -37,17 +37,17 @@ def get_weight(site):
 
 def main(uid):
     usersites = get_recent_sites(5)
-    allsites = list(usersites)  # copy usersites
+    candidatesites = []
     for site in usersites:
         cur = conn.cursor()
         cur.execute('SELECT site_id, connections FROM sites, connections WHERE sites.id = connections.site_id AND (site_id=%s OR from_id=%s);', (site, site))
         for neighbor in cur.fetchall():
             neighborid = neighbor[0]
-            if(neighborid not in allsites):
-                allsites.append(neighborid)
+            if(neighborid not in candidatesites and neighborid not in usersites):
+                candidatesites.append(neighborid)
         conn.commit()
     scores = []
-    for site in allsites:
+    for site in candidatesites:
         scores.append((site, get_weight(site)))
     print(scores)
 
