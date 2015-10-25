@@ -43,7 +43,7 @@ def compareconcepts(urla, urlb):
 		for conceptb in responseb['concepts']:
 			if conceptb['text'] == concepta['text']:
 				connect += math.sqrt(float(conceptb['relevance']) * float(concepta['relevance']))
-	return GAIN * connect / total
+	return GAIN * connect / (total + 0.000001)
 
 def main(conn):
 	global afail, bfail
