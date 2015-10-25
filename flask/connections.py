@@ -30,7 +30,8 @@ def get_recent_sites(uid, n=1):
 
 def get_weight(site):
     cur = conn.cursor()
-    weight = cur.execute('SELECT SUM(connections) FROM connections WHERE (site_id=%s OR from_id=%s);', (site, site)).fetchone()
+    cur.execute('SELECT SUM(connections) FROM connections WHERE (site_id=%s OR from_id=%s);', (site, site))\
+    weight = cur.fetchone()
     conn.commit()
     print(weight)
     return weight
