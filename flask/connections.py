@@ -50,7 +50,8 @@ def main(uid):
     for site in candidatesites:
         scores.append((site, get_weight(site)))
     scores = sorted(scores, key=lambda x: x[1])
-    print(scores)
+    for score in scores:
+        print(score)
 
 
 if __name__ == "__main__":
