@@ -8,7 +8,6 @@ app = Flask(__name__)
 @app.route("/.json", methods=["POST"])
 def main():
 	user_id = 0
-	print(request.form)
 	try:
 		conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
 		cur = conn.cursor()
@@ -50,10 +49,14 @@ def main():
 					cur.execute("UPDATE connections c SET c.connections=c.connections+1 WHERE id=%s", (connect[0],))
 				conn.commit()		
 	except mysql.connector.Error as e:
-		return str(e)
+		ret = Response(str(e))
+        ret.headers['Access-Control-Allow-Origin'] = '*'
+        return ret
 	else:
 		conn.close()
-		return json.dumps(connections.get_suggestions(user_id, 10))
+		ret = json.dumps(connections.get_suggestions(user_id, 10))
+		ret.headers['Access-Control-Allow-Origin'] = '*'
+        return ret
 	
 
 if __name__ == '__main__':
