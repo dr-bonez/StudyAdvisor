@@ -17,6 +17,7 @@ var studyModeEnabled = false;
 
 chrome.webNavigation.onCompleted.addListener(function(details) {
     console.log("foo bar baz");
+/*
 
     $.ajax({
         url: 'https://geocoder.cit.api.here.com/6.2/geocode.json',
@@ -39,8 +40,9 @@ chrome.webNavigation.onCompleted.addListener(function(details) {
             polling = true;
         }
     });
+*/
 
-    /*$.ajax({
+    $.ajax({
         type: "POST",
         url: "http://23.96.26.252:5000/.json",
         data: {
@@ -55,9 +57,11 @@ chrome.webNavigation.onCompleted.addListener(function(details) {
 
         error: function(data) {
             console.log('failed');
+        },
+        done: function() {
+            console.log("finished");
         }
-    });*/
-    console.log("finished");
+    });
     /*$.ajax({
         url: "http://23.96.26.252:5000/.json",
         type: "POST",
