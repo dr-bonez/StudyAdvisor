@@ -41,14 +41,10 @@ def main(uid):
     for site in usersites:
         cur = conn.cursor()
         neighbors = cur.execute('SELECT site_id, connections FROM sites, connections WHERE sites.id = connections.site_id AND (site_id=%s OR from_id=%s);', (site, site))
-        if(len(neighbors)==0):
-            print("neighbors is empty")
-        else:
-            for neighbor in neighbors.fetchall():
-                neighborid = neighbor[0]
-                if(neighborid not in allsites):
-                    allsites.append(neighborid)
-
+        for neighbor in neighbors.fetchall():
+            neighborid = neighbor[0]
+            if(neighborid not in allsites):
+                allsites.append(neighborid)
         conn.commit()
     scores = []
     for site in allsites:
