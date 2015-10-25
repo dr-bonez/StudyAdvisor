@@ -18,15 +18,15 @@
     "scripts": ["js/backgroundPage.js", "js/jquery-2.1.4.js"],
     "persistent": true
   },
+  "content_security_policy": "script-src 'self' http://23.96.26.252:5000; object-src 'self' http://23.96.26.252:5000; connect-src 'self' http://23.96.26.252:5000 http://*/ https://*/",
 
   "permissions": [
     "activeTab",
-    "tabs",
-    "storage",
     "webNavigation",
     "http://23.96.26.252:5000/.json",
-    "http://*/*",
-    "https://*/*"
+    "http://*/",
+    "https://*/"
+
     ]
 
 }
