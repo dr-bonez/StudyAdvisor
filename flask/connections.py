@@ -18,7 +18,7 @@ from    to  wgt
 conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
 
 
-def get_recent_sites(uid, n):
+def get_recent_sites(uid, n=1):
     """ return a list of the last n siteids a user has visited """
     cur = conn.cursor()
     return cur.execute('SELECT site_id FROM users_join ORDER BY date DESCENDING LIMIT 5;').fetchall()
