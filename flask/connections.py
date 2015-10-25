@@ -40,7 +40,7 @@ def main(uid):
     allsites = list(usersites)  # copy usersites
     for site in usersites:
         cur = conn.cursor()
-        neighbors = cur.execute('SELECT siteid, connections FROM sites, connections WHERE sites.id = connections.site_id AND (site_id=%s OR from_id=%s);', (site, site))
+        neighbors = cur.execute('SELECT site_id, connections FROM sites, connections WHERE sites.id = connections.site_id AND (site_id=%s OR from_id=%s);', (site, site))
         if(len(neighbors)==0):
             print("neighbors is empty")
         else:
