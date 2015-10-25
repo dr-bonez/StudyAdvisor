@@ -1,22 +1,13 @@
 #!/usr/bin/python
-import sys
 import mysql.connector
-
-"""
-
-Sites schema: id, url, title, description
-Connections schema: id, site_id, from_id, connections
-
-from    to  wgt
-1       1
-1       2
-1       3
-
-"""
 
 
 conn = mysql.connector.connect(host='localhost', database='study', user='root', password='password')
 
+
+def printd(string):
+    if __name__ == "__main__":
+        print(string)
 
 def get_recent_sites(uid, n=1):
     """ return a list of the last n siteids a user has visited """
@@ -35,7 +26,11 @@ def get_weight(site):
     conn.commit()
     return weight
 
-def main(uid):
+def get_suggestions(uid):
+    """
+    :param uid: The userid
+    :return: A list of (userid, connection) tuples sorted by connection in descending order
+    """
     usersites = get_recent_sites(5)
     candidatesites = []
     for site in usersites:
@@ -51,8 +46,8 @@ def main(uid):
         scores.append((site, get_weight(site)))
     scores = sorted(scores, key=lambda x: x[1], reverse = True)
     for score in scores:
-        print(score)
+        printd(score)
 
 
 if __name__ == "__main__":
-    main(1)
+    #get_suggestions(1)
