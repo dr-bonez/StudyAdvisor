@@ -4,7 +4,7 @@
   "name": "Study App",
   "description": "This extension finds websites based off the topic the user is viewing",
 
-  "options_page": "options.html",
+
   "version": "1.0",
 
   "browser_action": {
